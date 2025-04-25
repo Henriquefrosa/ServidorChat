@@ -1,0 +1,2 @@
+Usuário: teste | IP: 127.0.0.1 | Data: 2025-04-25 20:33:19
+Usuário: henrique | IP: 127.0.0.1 | Data: 2025-04-25 20:33:45

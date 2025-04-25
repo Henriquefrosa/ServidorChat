@@ -1,7 +1,9 @@
 package Servidor;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class Conexao extends Thread {
@@ -12,14 +14,35 @@ public class Conexao extends Thread {
     }
 
     public void run() {
-        Scanner saida = null;
         try {
-            saida = new Scanner(socket.getInputStream());
+            // Envia mensagem para o cliente perguntando o username
+            PrintWriter saida = new PrintWriter(socket.getOutputStream(), true);
+            saida.println("Bem-vindo! Qual é o seu nome de usuário?");
+
+            // Lê resposta do cliente
+            Scanner entrada = new Scanner(socket.getInputStream());
+            String username = entrada.nextLine();
+
+            // Obtém IP e data/hora da conexão
+            String ip = socket.getInetAddress().getHostAddress();
+            String dataHora = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+            // Grava as informações no arquivo
+            String info = String.format("Usuário: %s | IP: %s | Data: %s%n", username, ip, dataHora);
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter("conexoes.txt", true))) {
+                writer.write(info);
+            }
+
+            // Opcional: exibir no servidor também
+            System.out.println(info);
+
+            // Continua recebendo mensagens do cliente (opcional)
+            while (entrada.hasNextLine()) {
+                System.out.println(username + ": " + entrada.nextLine());
+            }
+
         } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        while (saida.hasNextLine()) {
-            System.out.println(saida.nextLine());
+            System.out.println("Erro na conexão: " + e.getMessage());
         }
     }
 }
