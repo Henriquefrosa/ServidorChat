@@ -1,10 +1,6 @@
 services:
-  - type: web
+  - type: worker
     name: servidorchat
     env: docker
     plan: free
-    autoDeploy: false
     dockerfilePath: ./Dockerfile
-    envVars:
-      - key: PORT
-        value: "10000"
