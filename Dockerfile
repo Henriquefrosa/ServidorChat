@@ -6,7 +6,7 @@ WORKDIR /app
 COPY src/ ./src
 
 # Compila os arquivos .java
-RUN mkdir out && javac -d out src/Main.java src/Servidor/Conexao.java
+RUN mkdir out && javac -d out src/Servidor/Main.java src/Servidor/Conexao.java
 
 # Copia o script de inicialização
 COPY start.sh ./start.sh
