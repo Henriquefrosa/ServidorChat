@@ -19,6 +19,17 @@ public class Conexao extends Thread {
             PrintWriter saida = new PrintWriter(socket.getOutputStream(), true);
             Scanner entrada = new Scanner(socket.getInputStream());
 
+            // Verifica se é uma requisição HTTP (ignora)
+            if (entrada.hasNextLine()) {
+                String primeiraLinha = entrada.nextLine();
+                // Se começar com "HEAD / HTTP", trata como requisição HTTP e encerra
+                if (primeiraLinha.startsWith("HEAD / HTTP")) {
+                    System.out.println("Requisição HTTP recebida, ignorando...");
+                    socket.close(); // Fecha a conexão com o cliente HTTP
+                    return;
+                }
+            }
+
             // Envia mensagem para o cliente
             saida.println("Bem-vindo! Qual é o seu nome de usuário?");
 
@@ -54,6 +65,7 @@ public class Conexao extends Thread {
         } catch (IOException e) {
             System.out.println("Erro na conexão: " + e.getMessage());
         }
-    }
+
+}
 
 }
