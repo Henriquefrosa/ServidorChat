@@ -14,6 +14,6 @@ COPY start.sh ./start.sh
 # Dá permissão de execução
 RUN chmod +x start.sh
 
-EXPOSE 12345
+EXPOSE 10000
 
 CMD ["bash", "./start.sh"]
