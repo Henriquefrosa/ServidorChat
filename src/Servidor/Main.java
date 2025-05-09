@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class Main {
     public static void main(String args[]) throws IOException {
-        var servidor = new ServerSocket(12345);
+        var servidor = new ServerSocket(10000);
         Socket socket = new Socket();
         System.out.println("Servidor iniciado na 12345!");
         ArrayList<Conexao> clientes = new ArrayList<>();
